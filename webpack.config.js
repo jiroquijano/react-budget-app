@@ -4,10 +4,9 @@ const path = require('path');
 module.exports = {
     entry: './src/app.js',
     output: {
-        path: path.join(__dirname,'public/scripts'),
-        filename: 'bundle.js'
+        path: path.join(__dirname, 'public'),
+        filename: 'scripts/bundle.js'
     },
-    mode: 'development',
     module:{
         rules:[{
             loader: 'babel-loader',
@@ -24,7 +23,8 @@ module.exports = {
     },
     devtool: 'cheap-module-eval-source-map',
     devServer: {
-        contentBase: path.join(__dirname,'public'),
+        contentBase: path.join(__dirname, 'public'),
+        historyApiFallback: true,
         watchContentBase: true
     }
 };
