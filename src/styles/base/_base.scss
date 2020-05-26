@@ -12,5 +12,10 @@ body{
 }
 
 .button:disabled{
-    curson:default;
+    cursor:default;
+}
+
+.is-active {
+    color: red;
+    font-weight: bold;
 }
