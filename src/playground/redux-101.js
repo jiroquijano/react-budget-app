@@ -19,7 +19,13 @@ const setCount = ({count = 0}={})=>({
     count : typeof count === 'number' ? count : 0
 });
 
-const store = createStore((state = {count:0}, action)=>{
+//Reducers
+//1. Reducers are pure functions
+//2. Should not mutate state or actions
+//3. Does not call non-pure functions
+//4. Does not call API calls or routing transitions
+
+const countReducer = (state = {count:0}, action)=>{
     switch (action.type){
         case 'INCREMENT': 
             return{
@@ -40,11 +46,9 @@ const store = createStore((state = {count:0}, action)=>{
         default: 
             return state;
     };
-});
+};
 
-const unsubscribe = store.subscribe((some)=>{
-
-})
+const store = createStore(countReducer);
 
 store.dispatch(incrementCount({incrementBy: 10}));
 store.dispatch(decrementCount({decrementBy: 5}));
