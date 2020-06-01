@@ -1,8 +1,8 @@
-export default getVisibleExpenses = ({expenses, filters})=>{
+const getVisibleExpenses = ({expenses, filters})=>{
     const filteredExpenses = expenses.filter((expense)=>{
         const hasText = expense.description.toLowerCase().includes(filters.text.toLowerCase());
-        const isWithinDate = (filters.startDate !== undefined || expense.createdAt >= filters.startDate) &&
-            (filters.endDate !== undefined || expense.createdAt <= filters.endDate);
+        const isWithinDate = (typeof filters.startDate !== 'number' || expense.createdAt >= filters.startDate) &&
+            (typeof filters.endDate !== 'number' || expense.createdAt <= filters.endDate);
         return hasText && isWithinDate;
     });
     const sortBy = filters.sortBy === 'date' ? 'createdAt' : 'amount';
@@ -10,3 +10,5 @@ export default getVisibleExpenses = ({expenses, filters})=>{
             return expense1[sortBy] - expense2[sortBy];
         });
 }
+
+export default getVisibleExpenses;

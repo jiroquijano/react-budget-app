@@ -1,6 +1,6 @@
 const expenseReducerDefaultState = [];
 
-export default expensesReducer = (state = expenseReducerDefaultState, action)=>{
+const expensesReducer = (state = expenseReducerDefaultState, action)=>{
     switch (action.type){
         case 'ADD_EXPENSE':
             return [...state, action.expense];
@@ -18,3 +18,5 @@ export default expensesReducer = (state = expenseReducerDefaultState, action)=>{
             return state;
     }
 };
+
+export default expensesReducer;
