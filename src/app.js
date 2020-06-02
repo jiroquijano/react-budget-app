@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import {Provider} from 'react-redux';
 import './styles/styles.scss';
 import 'normalize.css/normalize.css';
 import AppRouter from './routers/AppRouter.js';
@@ -21,10 +22,15 @@ const firstExpense = store.dispatch(addExpense({
 
 const secondExpense = store.dispatch(addExpense({
     description: 'Electricity Bill',
-    amout: 2500,
+    amount: 2500,
     createdAt: 2000
 }));
 
-store.dispatch(setTextFilter('bill'));
+store.dispatch(setTextFilter('water'));
 
-ReactDOM.render(<AppRouter/>,document.querySelector('#app'));
+const jsx = (
+    <Provider store={store}>
+        <AppRouter/>
+    </Provider>
+)
+ReactDOM.render(jsx,document.querySelector('#app'));
