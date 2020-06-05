@@ -1,9 +1,12 @@
+import moment from 'moment';
+
 const getVisibleExpenses = ({expenses, filters})=>{
     const filteredExpenses = expenses.filter((expense)=>{
         const hasText = expense.description.toLowerCase().includes(filters.text.toLowerCase());
-        const isWithinDate = (typeof filters.startDate !== 'number' || expense.createdAt >= filters.startDate) &&
-            (typeof filters.endDate !== 'number' || expense.createdAt <= filters.endDate);
-        return hasText && isWithinDate;
+        const createdAtMoment = moment(expense.createdAt);
+        const startDateMatch = filters.startDate ? filters.startDate.isSameOrBefore(createdAtMoment, 'day'): true;
+        const endDateMatch = filters.endDate ? filters.endDate.isSameOrAfter(createdAtMoment, 'day') : true;
+        return hasText && startDateMatch && endDateMatch;
     });
     const sortBy = filters.sortBy === 'date' ? 'createdAt' : 'amount';
     return filteredExpenses.sort((expense1,expense2)=>{
