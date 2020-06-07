@@ -5,6 +5,10 @@ import expenses from '../fixtures/expenses-fixtures';
 
 test ("Should render ExpenseList with expenses", ()=>{
     const wrapper = shallow(<ExpenseList expenses={expenses} />);
-    console.log(wrapper.shallow());
     expect(wrapper).toMatchSnapshot();
 })
+
+test ("Should render ExpenseList with empty message", ()=>{
+    const wrapper = shallow(<ExpenseList expenses={[]}/>);
+    expect(wrapper).toMatchSnapshot();
+});
