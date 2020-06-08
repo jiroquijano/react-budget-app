@@ -11,13 +11,13 @@ export class EditExpensePage extends React.Component{
     }
 
     onClick = () =>{
-        this.props.removeExpenseDispatch(this.props.match.params.id);
+        this.props.removeExpenseDispatch(this.props.expense.id);
         this.props.history.push("/");
     }
 
     render(){ 
         return (<div>
-                    Edit Expense Page for id: {this.props.match.params.id}
+                    Edit Expense Page for id: {this.props.expense.id}
                     <ExpenseForm 
                         expense={this.props.expense}
                         onSubmit={this.onSubmit}
