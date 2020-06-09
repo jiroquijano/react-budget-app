@@ -30,7 +30,7 @@ test ("should trigger edit expense dispatch on submit", ()=>{
 });
 
 test ("should trigger remove expense dispatch on click", ()=>{
-    wrapper.find('button').prop('onClick')();
+    wrapper.find('button').simulate('click');
     expect(removeExpenseDispatch).toHaveBeenLastCalledWith(expenses[0].id);
     expect(history.push).toHaveBeenLastCalledWith('/');
 });
