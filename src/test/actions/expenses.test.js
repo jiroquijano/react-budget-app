@@ -1,14 +1,25 @@
-import {addExpense, removeExpense, editExpense, startAddExpense} from '../../actions/expenses';
+import {addExpense, removeExpense, editExpense, startAddExpense, setExpenses, startSetExpenses} from '../../actions/expenses';
 import expenses from '../fixtures/expenses-fixtures';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import database from '../../firebase/firebase';
+import database, {firebase} from '../../firebase/firebase';
 
 const createMockStore = configureMockStore([thunk]);
 
-beforeEach(()=>{
-    database.ref().remove();
-})
+beforeEach((done)=>{
+    const expensesData = {};
+    expenses.forEach(({id, description, note, amount, createdAt})=>{
+        expensesData[id] = {
+            description,
+            note,
+            amount,
+            createdAt
+        }
+    });
+    database.ref('expenses').set(expensesData).then(()=>{
+        done();
+    });
+});
 
 test ("should add expense to database and store", (done)=>{
     const store = createMockStore({});
@@ -20,7 +31,6 @@ test ("should add expense to database and store", (done)=>{
     }
     store.dispatch(startAddExpense(expenseData)).then(()=>{
         const actions = store.getActions();
-        console.log(actions[0]);
         expect(actions[0]).toEqual({
             type: 'ADD_EXPENSE',
             expense: {
@@ -63,23 +73,6 @@ test ("Not empty addExpense generator should generate add action", ()=>{
     });
 });
 
-// test ("Empty addExpense generator should generate add action with defaults", ()=>{
-//     const defaultAddAction = {
-//         description: '',
-//         note: '',
-//         amount: 0,
-//         createdAt: 0
-//     }
-//     const addAction = addExpense();
-//     expect(addAction).toEqual({
-//         type: 'ADD_EXPENSE',
-//         expense: {
-//             id: expect.any(String),
-//             ...defaultAddAction
-//         }
-//     });
-// });
-
 test ("removeExpense generator should generate remove action", ()=>{
     const removeAction = removeExpense('123');
     expect(removeAction).toMatchObject({
@@ -101,4 +94,25 @@ test ("editExpense generator should generate edit action", ()=>{
         id: '123',
         updates
     })
+});
+
+test ("should setup setExpense action object with data", ()=>{
+    const result =  setExpenses(expenses);
+    expect(result).toEqual({
+        type: 'SET_EXPENSES',
+        expenses
+    })
+});
+
+test ("should fetch data from database and set the expenses", (done)=>{
+    const store = createMockStore({});
+    const dispatchPromise =  store.dispatch(startSetExpenses());
+    dispatchPromise.then(()=>{
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'SET_EXPENSES',
+            expenses: [...expenses]
+        });
+        done();
+    });
 })

@@ -37,3 +37,12 @@ test ("should be able to edit existing expense", ()=>{
     const state = expensesReducer(expensesFixture, {type:'EDIT_EXPENSE',id: '1', updates})
     expect(state).toEqual([{...state[0], ...updates}, ...expensesFixture.slice(1)]);
 });
+
+test ("should set expenses", ()=>{
+    const action = {
+        type: 'SET_EXPENSES',
+        expenses: expensesFixture
+    }
+    const state = expensesReducer(undefined, action);
+    expect(state).toEqual(expensesFixture);
+})
