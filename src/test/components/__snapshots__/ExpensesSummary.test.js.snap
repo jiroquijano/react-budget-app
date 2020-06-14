@@ -5,8 +5,10 @@ exports[`Should render multiple expenses summary properly 1`] = `
   <p>
     Viewing 
     3
-     expenses totalling 
-    114195
+     
+    expenses
+     totalling 
+    $1,141.95
      
   </p>
 </div>
@@ -17,8 +19,10 @@ exports[`Should render single expense summary properly 1`] = `
   <p>
     Viewing 
     1
-     expenses totalling 
-    195
+     
+    expense
+     totalling 
+    $1.95
      
   </p>
 </div>
