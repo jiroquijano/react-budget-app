@@ -5,11 +5,10 @@ import './styles/styles.scss';
 import 'normalize.css/normalize.css';
 import AppRouter from './routers/AppRouter.js';
 import configureStore from './store/configureStore';
-import getVisibleExpenses from './selectors/expenses';
-import {startSetExpenses, startAddExpense} from './actions/expenses';
+import {startSetExpenses} from './actions/expenses';
 import 'react-dates/lib/css/_datepicker.css';
 import 'react-dates/initialize';
-import './firebase/firebase';
+import {firebase} from './firebase/firebase';
 
 const store = configureStore();
 
@@ -22,3 +21,13 @@ ReactDOM.render(<p>Loading...</p>,document.querySelector('#app'));
 store.dispatch(startSetExpenses()).then(()=>{
     ReactDOM.render(jsx,document.querySelector('#app'));
 });
+
+firebase.auth().onAuthStateChanged((user)=>{
+    if(user){
+        console.log('log in');
+        
+    }else{
+        console.log('log out');
+        
+    }
+})
